@@ -125,13 +125,13 @@ const Sidebar = () => {
               <Timeline
                 style={{ marginRight: "5px", fontSize: "20px !important" }}
               />
-              Timeline
+              Users
             </ListItem>
             <ListItem>
               <TrendingUp
                 style={{ marginRight: "5px", fontSize: "20px !important" }}
               />
-              Trend
+              Products
             </ListItem>
           </List>
         </Menu>
