@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import { LineStyle, Timeline, TrendingUp } from "@material-ui/icons";
-import { Link } from "react-router-dom";
+import { StyledLink } from "./styled-components/StyledLink";
 
 const Container = styled.div`
   flex: 1;
@@ -47,14 +47,14 @@ const Sidebar = () => {
         <Menu>
           <Title>Dashboard</Title>
           <List>
-            <Link to="/">
+            <StyledLink to="/">
               <ListItem>
                 <LineStyle
                   style={{ marginRight: "5px", fontSize: "20px !important" }}
                 />
                 Home
               </ListItem>
-            </Link>
+            </StyledLink>
             <ListItem>
               <Timeline
                 style={{ marginRight: "5px", fontSize: "20px !important" }}
@@ -130,14 +130,14 @@ const Sidebar = () => {
               />
               Users
             </ListItem>
-            <Link to="/products">
+            <StyledLink to="/products">
               <ListItem>
                 <TrendingUp
                   style={{ marginRight: "5px", fontSize: "20px !important" }}
                 />
                 Products
               </ListItem>
-            </Link>
+            </StyledLink>
           </List>
         </Menu>
       </Wrapper>

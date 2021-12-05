@@ -5,6 +5,8 @@ import Home from "./pages/Home";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import ProductList from "./pages/ProductList";
 import Product from "./pages/Product";
+import { useSelector } from "react-redux";
+import Login from "./pages/Login";
 
 const Container = styled.div`
   display: flex;
@@ -12,15 +14,19 @@ const Container = styled.div`
 `;
 
 function App() {
+  const user = useSelector((state) => state.user.currentUser);
   return (
     <Router>
-      <Topbar />
+      {user && <Topbar />}
       <Container>
-        <Sidebar />
+        {user && <Sidebar />}
         <Routes>
-          <Route exact path="/" element={<Home />} />
-          <Route path="/products" element={<ProductList />} />
-          <Route path="/product/1" element={<Product />} />
+          <Route exact path="/" element={user ? <Home /> : <Login />} />
+          <Route
+            path="/products"
+            element={user ? <ProductList /> : <Login />}
+          />
+          <Route path="/product/1" element={user ? <Product /> : <Login />} />
         </Routes>
       </Container>
     </Router>
