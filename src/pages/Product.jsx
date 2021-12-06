@@ -145,8 +145,8 @@ const Product = () => {
   return (
     <Container>
       <ProductTitleContainer>
-        <ProductTitle></ProductTitle>
-        <ProductAddButton></ProductAddButton>
+        <ProductTitle>Product</ProductTitle>
+        <ProductAddButton>ADD + </ProductAddButton>
       </ProductTitleContainer>
       <Top>
         <TopLeft>
@@ -155,20 +155,20 @@ const Product = () => {
         <TopRight>
           <InfoTop>
             <InfoImg src="https://images.pexels.com/photos/7156886/pexels-photo-7156886.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500" />
-            <Name></Name>
+            <Name>Air pods</Name>
           </InfoTop>
           <InfoBottom>
             <InfoItem>
-              <InfoKey></InfoKey>
-              <InfoValue></InfoValue>
+              <InfoKey>key 1</InfoKey>
+              <InfoValue>val 1</InfoValue>
             </InfoItem>
             <InfoItem>
-              <InfoKey></InfoKey>
-              <InfoValue></InfoValue>
+              <InfoKey>key 2</InfoKey>
+              <InfoValue>val 2</InfoValue>
             </InfoItem>
             <InfoItem>
-              <InfoKey></InfoKey>
-              <InfoValue></InfoValue>
+              <InfoKey>key 3</InfoKey>
+              <InfoValue>val 3</InfoValue>
             </InfoItem>
           </InfoBottom>
         </TopRight>
@@ -176,9 +176,9 @@ const Product = () => {
       <Bottom>
         <Form>
           <FormLeft>
-            <FormLabel></FormLabel>
+            <FormLabel>Label</FormLabel>
             <FormInput type="text" placeholder="Apple AirPod" />
-            <FormLabel></FormLabel>
+            <FormLabel>Label</FormLabel>
             <Select id="idStock" name="idStock">
               <Options></Options>
               <Options></Options>

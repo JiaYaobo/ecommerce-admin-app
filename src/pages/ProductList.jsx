@@ -1,9 +1,11 @@
 import { DataGrid } from "@material-ui/data-grid";
 import { DeleteOutline } from "@material-ui/icons";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import styled from "styled-components";
 import { productRows } from "../dummyData";
 import { Link } from "react-router-dom";
+import { publicRequest } from "../requestMethods";
+import { useSelector } from "react-redux";
 
 const Container = styled.div`
   flex: 4;
@@ -34,10 +36,25 @@ const ProductListEdit = styled.button`
 
 const ProductList = () => {
   const [data, setData] = useState(productRows);
+  const { currentUser } = useSelector((state) => state.user);
+  const [products, setProducts] = useState([]);
+
+  const loadProducts = async () => {
+    const res = await publicRequest.get(
+      `/product/products/store/${currentUser.user_id}`
+    );
+    const prods_data = await res.data;
+    setProducts([...prods_data]);
+  };
 
   const handleDelete = (id) => {
     setData(data.filter((item) => item.id !== id));
   };
+
+  useEffect(() => {
+    loadProducts();
+    console.log(products);
+  }, []);
   const columns = [
     { field: "id", headerName: "ID", width: 90 },
     {

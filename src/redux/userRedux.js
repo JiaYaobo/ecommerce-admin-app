@@ -25,10 +25,11 @@ const userSlice = createSlice({
       state.currentUser = null;
     },
     updateUserInfo: (state, action) => {
-      state.currentUser.user_name = action.payload.user_name;
-      state.currentUser.user_province = action.payload.user_province;
-      state.currentUser.user_city = action.payload.user_city;
-      state.currentUser.user_mobile = action.payload.user_mobile;
+      console.log(action.payload);
+      // state.currentUser.user_name = action.payload.user_name;
+      // state.currentUser.user_province = action.payload.user_province;
+      // state.currentUser.user_city = action.payload.user_city;
+      // state.currentUser.user_mobile = action.payload.user_mobile;
     },
   },
 });
