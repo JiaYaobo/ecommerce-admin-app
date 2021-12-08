@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
-const User = () => {
+const Vip = () => {
   return <div></div>;
 };
 
-export default User;
+export default Vip;

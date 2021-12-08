@@ -1,8 +1,11 @@
-import { Link } from "react-router-dom";
 import Chart from "../components/Chart";
 import styled from "styled-components";
 import { productData } from "../dummyData";
 import { Publish } from "@material-ui/icons";
+import { useState } from "react";
+import { useEffect } from "react";
+import { useParams } from "react-router";
+import { publicRequest } from "../requestMethods";
 
 const Container = styled.div`
   flex: 4;
@@ -142,10 +145,22 @@ const Button = styled.button`
 `;
 
 const Product = () => {
+  const params = useParams();
+  const [product, setProduct] = useState({});
+
+  useEffect(() => {
+    const fetchProduct = async () => {
+      const res = await publicRequest.get(`/product/${params.productId}`);
+      const data = await res.data;
+      setProduct(data);
+    };
+    fetchProduct();
+  }, []);
+
   return (
     <Container>
       <ProductTitleContainer>
-        <ProductTitle>Product</ProductTitle>
+        <ProductTitle>{product?.goods_name}</ProductTitle>
         <ProductAddButton>ADD + </ProductAddButton>
       </ProductTitleContainer>
       <Top>
@@ -154,21 +169,23 @@ const Product = () => {
         </TopLeft>
         <TopRight>
           <InfoTop>
-            <InfoImg src="https://images.pexels.com/photos/7156886/pexels-photo-7156886.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500" />
-            <Name>Air pods</Name>
+            <InfoImg src={product?.goods_image} />
+            <Name>{product?.goods_name}</Name>
           </InfoTop>
           <InfoBottom>
             <InfoItem>
-              <InfoKey>key 1</InfoKey>
-              <InfoValue>val 1</InfoValue>
+              <InfoKey>id</InfoKey>
+              <InfoValue>{product?.goods_id}</InfoValue>
             </InfoItem>
             <InfoItem>
-              <InfoKey>key 2</InfoKey>
-              <InfoValue>val 2</InfoValue>
+              <InfoKey>current price</InfoKey>
+              <InfoValue>{product?.goods_price}</InfoValue>
             </InfoItem>
             <InfoItem>
-              <InfoKey>key 3</InfoKey>
-              <InfoValue>val 3</InfoValue>
+              <InfoKey>current status</InfoKey>
+              <InfoValue>
+                {product?.goods_status === 1 ? "on sale" : "not sale"}
+              </InfoValue>
             </InfoItem>
           </InfoBottom>
         </TopRight>
@@ -176,22 +193,19 @@ const Product = () => {
       <Bottom>
         <Form>
           <FormLeft>
-            <FormLabel>Label</FormLabel>
-            <FormInput type="text" placeholder="Apple AirPod" />
-            <FormLabel>Label</FormLabel>
-            <Select id="idStock" name="idStock">
-              <Options></Options>
-              <Options></Options>
-            </Select>
-            <FormLabel></FormLabel>
+            <FormLabel>Name</FormLabel>
+            <FormInput type="text" placeholder={product?.goods_name} />
+            <FormLabel>Price</FormLabel>
+            <FormInput type="number" placeholder={product?.goods_price} />
+            <FormLabel>Status</FormLabel>
             <Select id="active" name="active">
-              <Options></Options>
-              <Options></Options>
+              <Options>0</Options>
+              <Options>1</Options>
             </Select>
           </FormLeft>
           <FormRight>
             <Upload>
-              <UploadImg src="https://images.pexels.com/photos/7156886/pexels-photo-7156886.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500" />
+              <UploadImg src={product?.goods_image} />
               <FormLabel for="file">
                 <Publish />
               </FormLabel>

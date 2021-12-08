@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
-const NewProduct = () => {
+const inTransOrder = () => {
   return <div></div>;
 };
 
-export default NewProduct;
+export default inTransOrder;

@@ -12,7 +12,7 @@ const UserListImg = styled.img``;
 
 const UserListEdit = styled.button``;
 
-const UserList = () => {
+const VipList = () => {
   const [data, setData] = useState(userRows);
 
   const handleDelete = (id) => {
@@ -78,4 +78,4 @@ const UserList = () => {
   );
 };
 
-export default UserList;
+export default VipList;

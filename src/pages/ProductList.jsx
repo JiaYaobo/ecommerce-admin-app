@@ -44,6 +44,10 @@ const ProductList = () => {
       `/product/products/store/${currentUser.user_id}`
     );
     const prods_data = await res.data;
+    for (let i = 0; i < prods_data.length; i++) {
+      prods_data[i].id = prods_data[i]["goods_id"];
+      delete prods_data[i].key1;
+    }
     setProducts([...prods_data]);
   };
 
@@ -53,10 +57,9 @@ const ProductList = () => {
 
   useEffect(() => {
     loadProducts();
-    console.log(products);
   }, []);
   const columns = [
-    { field: "id", headerName: "ID", width: 90 },
+    { field: "goods_id", headerName: "ID", width: 90 },
     {
       field: "product",
       headerName: "Product",
@@ -64,20 +67,20 @@ const ProductList = () => {
       renderCell: (params) => {
         return (
           <ProductListItem>
-            <ProductListImg src={params.row.img} alt="" />
-            {params.row.name}
+            <ProductListImg src={params.row.goods_image} alt="" />
+            {params.row.goods_name}
           </ProductListItem>
         );
       },
     },
-    { field: "stock", headerName: "Stock", width: 200 },
+    { field: "id", headerName: "Stock", width: 200 },
     {
-      field: "status",
+      field: "goods_status",
       headerName: "Status",
       width: 120,
     },
     {
-      field: "price",
+      field: "goods_price",
       headerName: "Price",
       width: 160,
     },
@@ -88,7 +91,7 @@ const ProductList = () => {
       renderCell: (params) => {
         return (
           <>
-            <Link to={"/product/" + 1}>
+            <Link to={"/product/" + params.row.id}>
               <ProductListEdit>Edit</ProductListEdit>
             </Link>
             <DeleteOutline
@@ -103,7 +106,7 @@ const ProductList = () => {
   return (
     <Container>
       <DataGrid
-        rows={data}
+        rows={products}
         disableSelectionOnClick
         columns={columns}
         pageSize={8}

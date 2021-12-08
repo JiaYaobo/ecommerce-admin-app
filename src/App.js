@@ -26,7 +26,10 @@ function App() {
             path="/products"
             element={user ? <ProductList /> : <Login />}
           />
-          <Route path="/product/1" element={user ? <Product /> : <Login />} />
+          <Route
+            path="/product/:productId"
+            element={user ? <Product /> : <Login />}
+          />
         </Routes>
       </Container>
     </Router>
