@@ -1,5 +1,6 @@
 import { Language, NotificationsNone, Settings } from "@material-ui/icons";
 import styled from "styled-components";
+import { StyledLink } from "./styled-components/StyledLink";
 
 const Container = styled.div`
   width: 100%;
@@ -70,10 +71,12 @@ const Topbar = () => {
           <Logo>ECOMMERCE ADMIN</Logo>
         </Left>
         <Right>
-          <IconContainer>
-            <NotificationsNone />
-            <IconBadge>1</IconBadge>
-          </IconContainer>
+          <StyledLink to="/messenger">
+            <IconContainer>
+              <NotificationsNone />
+              <IconBadge>1</IconBadge>
+            </IconContainer>
+          </StyledLink>
           <IconContainer>
             <Language />
             <IconBadge>2</IconBadge>

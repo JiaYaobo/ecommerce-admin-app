@@ -7,6 +7,7 @@ import ProductList from "./pages/ProductList";
 import Product from "./pages/Product";
 import { useSelector } from "react-redux";
 import Login from "./pages/Login";
+import Messenger from "./pages/Messenger";
 
 const Container = styled.div`
   display: flex;
@@ -25,6 +26,11 @@ function App() {
           <Route
             path="/products"
             element={user ? <ProductList /> : <Login />}
+          />
+          <Route
+            exact
+            path="/messenger"
+            element={user ? <Messenger /> : <Login />}
           />
           <Route
             path="/product/:productId"
