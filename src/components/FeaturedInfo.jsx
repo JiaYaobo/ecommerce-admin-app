@@ -1,6 +1,9 @@
 import { ArrowDownward } from "@material-ui/icons";
 import React from "react";
 import styled from "styled-components";
+import { useSelector } from "react-redux";
+import { useEffect, useState } from "react";
+import { publicRequest } from "../requestMethods";
 
 const Container = styled.div`
   width: 100%;
@@ -45,37 +48,77 @@ const Sub = styled.span`
 `;
 
 const FeaturedInfo = () => {
+  const { currentUser } = useSelector((state) => state.user);
+  const [ydata, setYData] = useState(null);
+  const [vip, setVip] = useState(0);
+  const [order, setOrder] = useState(0);
+
+  useEffect(() => {
+    const fetchVipNum = async () => {
+      try {
+        const res = await publicRequest.get(
+          "/stats/vip_stats/store/" + currentUser.user_id
+        );
+        const data = await res.data;
+        setVip(data.vip_num);
+      } catch (err) {
+        console.log(err);
+      }
+    };
+    fetchVipNum();
+  }, []);
+
+  useEffect(() => {
+    const fetchOrderNum = async () => {
+      try {
+        const res = await publicRequest.get(
+          "/stats/order_stats/store/" + currentUser.user_id
+        );
+        const data = await res.data;
+        setOrder(data.order_num);
+      } catch (err) {
+        console.log(err);
+      }
+    };
+    fetchOrderNum();
+  }, []);
+
+  useEffect(() => {
+    const fetchYearSales = async () => {
+      try {
+        const res = await publicRequest.get(
+          "/stats/year_stats/store/" + currentUser.user_id
+        );
+        const data = await res.data;
+        setYData(data);
+      } catch (err) {
+        console.log(err);
+      }
+    };
+    fetchYearSales();
+  }, []);
   return (
     <Container>
       <Item>
-        <Title>Revanue</Title>
+        <Title>VIP</Title>
         <MoneyContainer>
-          <Money>$1,111</Money>
-          <MoneyRate>
-            -11 <ArrowDownward />
-          </MoneyRate>
+          <Money>{vip}</Money>
         </MoneyContainer>
-        <Sub>Compared to last month</Sub>
+        <Sub>Vip Num</Sub>
+      </Item>
+      <Item>
+        <Title>ORDER</Title>
+        <MoneyContainer>
+          <Money>{order}</Money>
+        </MoneyContainer>
+        <Sub>Order Num</Sub>
       </Item>
       <Item>
         <Title>Revanue</Title>
         <MoneyContainer>
-          <Money>$1,111</Money>
-          <MoneyRate>
-            -11 <ArrowDownward />
-          </MoneyRate>
+          <Money>${ydata?.sales_total_year}</Money>
         </MoneyContainer>
-        <Sub>Compared to last month</Sub>
-      </Item>
-      <Item>
-        <Title>Revanue</Title>
-        <MoneyContainer>
-          <Money>$1,111</Money>
-          <MoneyRate>
-            -11 <ArrowDownward />
-          </MoneyRate>
-        </MoneyContainer>
-        <Sub>Compared to last month</Sub>
+        <Sub>Sales all year</Sub>
       </Item>
     </Container>
   );

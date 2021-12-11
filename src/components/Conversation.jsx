@@ -25,19 +25,19 @@ const Name = styled.span`
 `;
 
 const Conversation = ({ conversationId }) => {
-  const [store, setStore] = useState({});
+  const [user, setUser] = useState({});
   useEffect(() => {
     const fetchStore = async () => {
-      const res = await publicRequest.get(`/chat/store_info/${conversationId}`);
+      const res = await publicRequest.get(`/chat/user_info/${conversationId}`);
       const data = await res.data;
-      setStore(data);
+      setUser(data);
     };
     fetchStore();
   }, []);
   return (
     <Container>
       <Image src="https://images.pexels.com/photos/2894230/pexels-photo-2894230.jpeg?cs=srgb&dl=pexels-eunhyuk-ahn-2894230.jpg&fm=jpg" />
-      <Name>{store?.user_name}</Name>
+      <Name>{user?.user_name}</Name>
     </Container>
   );
 };

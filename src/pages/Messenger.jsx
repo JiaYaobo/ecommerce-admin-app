@@ -153,14 +153,15 @@ const Messenger = () => {
     const getMessages = async () => {
       try {
         const res = await publicRequest.get(
-          "/chat/messages/" + currentChat.conversation_id
+          "/chat/messages/" + currentChat?.conversation_id
         );
-        setMessages(res.data);
+        const data = await res.data;
+        setMessages([...data]);
       } catch (err) {
         console.log(err);
       }
     };
-    getMessages();
+    currentChat && getMessages();
   }, [currentChat]);
 
   useEffect(() => {

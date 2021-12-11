@@ -46,7 +46,7 @@ export const logout = async (dispatch) => {
 export const loadWaitOrders = async (dispatch, user_id) => {
   loadWaitOrdersStart();
   try {
-    const res = await publicRequest.get(`/order/wait_orders/${user_id}`);
+    const res = await publicRequest.get(`/store/wait_orders/${user_id}`);
     dispatch(loadWaitOrdersSuccess(res.data));
   } catch (err) {
     dispatch(loadWaitOrdersFailure());
@@ -56,7 +56,7 @@ export const loadWaitOrders = async (dispatch, user_id) => {
 export const loadTransOrders = async (dispatch, user_id) => {
   loadTransOrdersStart();
   try {
-    const res = await publicRequest.get(`/order/trans_orders/${user_id}`);
+    const res = await publicRequest.get(`/store/trans_orders/${user_id}`);
     dispatch(loadTransOrdersSuccess(res.data));
   } catch (err) {
     dispatch(loadTransOrdersFailure());
@@ -66,7 +66,7 @@ export const loadTransOrders = async (dispatch, user_id) => {
 export const loadFinishedOrders = async (dispatch, user_id) => {
   loadFinishedOrdersStart();
   try {
-    const res = await publicRequest.get(`/order/finished_orders/${user_id}`);
+    const res = await publicRequest.get(`/store/finished_orders/${user_id}`);
     dispatch(loadFinishedOrdersSuccess(res.data));
   } catch (err) {
     dispatch(loadFinishedOrdersFailure());
