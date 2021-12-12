@@ -2,19 +2,19 @@ import { useSelector, useDispatch } from "react-redux";
 import styled from "styled-components";
 import { DataGrid } from "@material-ui/data-grid";
 import { DeleteOutline } from "@material-ui/icons";
-import { deleteFinishedOrder, loadFinishedOrders } from "../redux/apiCalls";
 import { useEffect } from "react";
+import { deleteTransOrder, loadTransOrders } from "../redux/apiCalls";
 
 const Container = styled.div`
   flex: 4;
 `;
 
-const FinishedOrderListItem = styled.div`
+const TransOrderListItem = styled.div`
   display: flex;
   align-items: center;
 `;
 
-const FinishedOrderListEdit = styled.button`
+const TransOrderListEdit = styled.button`
   border: none;
   border-radius: 10px;
   padding: 5px 10px;
@@ -24,38 +24,34 @@ const FinishedOrderListEdit = styled.button`
   margin-right: 20px;
 `;
 
-const FinishedOrderList = () => {
-  const inFinishedOrders = useSelector(
-    (state) => state.finishedOrder.inFinishedOrders
-  );
+const TransOrderList = () => {
+  const inTransOrders = useSelector((state) => state.transOrder.inTransOrders);
   const { currentUser } = useSelector((state) => state.user);
   const dispatch = useDispatch();
 
   useEffect(() => {
-    loadFinishedOrders(dispatch, currentUser.user_id);
+    loadTransOrders(dispatch, currentUser.user_id);
   }, []);
 
   const handleDelete = (order_id) => {
-    deleteFinishedOrder(dispatch, order_id);
+    deleteTransOrder(dispatch, order_id);
     window.location.reload();
   };
 
   const columns = [
-    { field: "order_id", headerName: "Order ID", width: 200 },
+    { field: "order_id", headerName: "ORDER ID", width: 200 },
     {
       field: "goods_id",
       headerName: "Goods ID",
       width: 200,
       renderCell: (params) => {
-        return (
-          <FinishedOrderListItem>{params.row.goods_id}</FinishedOrderListItem>
-        );
+        return <TransOrderListItem>{params.row.goods_id}</TransOrderListItem>;
       },
     },
     { field: "order_total", headerName: "Total", width: 200 },
     {
-      field: "comment_status",
-      headerName: "Comment",
+      field: "order_expect_time",
+      headerName: "Expected Time",
       width: 200,
     },
     {
@@ -66,7 +62,7 @@ const FinishedOrderList = () => {
         return (
           <>
             <DeleteOutline
-              sx={{ color: "red", curor: "pointer" }}
+              style={{ color: "red", curor: "pointer" }}
               onClick={() => handleDelete(params.row.order_id)}
             />
           </>
@@ -77,7 +73,7 @@ const FinishedOrderList = () => {
   return (
     <Container>
       <DataGrid
-        rows={inFinishedOrders}
+        rows={inTransOrders}
         getRowId={(row) => row.order_id}
         disableSelectionOnClick
         columns={columns}
@@ -88,4 +84,4 @@ const FinishedOrderList = () => {
   );
 };
 
-export default FinishedOrderList;
+export default TransOrderList;

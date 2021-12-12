@@ -1,48 +1,61 @@
 import { DataGrid } from "@material-ui/data-grid";
 import { DeleteOutline } from "@material-ui/icons";
-import { userRows } from "../../dummyData";
+import { useSelector } from "react-redux";
 import styled from "styled-components";
-import { Link } from "react-router-dom";
 
-const Container = styled.div``;
+const Container = styled.div`
+  flex: 4;
+`;
 
-const UserListUser = styled.div``;
+const VipListItem = styled.div`
+  display: flex;
+  align-items: center;
+`;
 
-const UserListImg = styled.img``;
+const VipListImg = styled.img`
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-right: 10px;
+`;
 
-const UserListEdit = styled.button``;
+const VipListEdit = styled.button`
+  border: none;
+  border-radius: 10px;
+  padding: 5px 10px;
+  background-color: #3bb077;
+  color: white;
+  cursor: pointer;
+  margin-right: 20px;
+`;
 
 const VipList = () => {
-  const [data, setData] = useState(userRows);
+  const vips = useSelector((state) => state.vip.vips);
 
   const handleDelete = (id) => {
-    setData(data.filter((item) => item.id !== id));
+    // setData(data.filter((item) => item.id !== id));
   };
 
   const columns = [
-    { field: "id", headerName: "ID", width: 90 },
+    { field: "user_id", headerName: "ID", width: 90 },
     {
-      field: "user",
-      headerName: "User",
+      field: "Vip",
+      headerName: "Vip",
       width: 200,
       renderCell: (params) => {
         return (
-          <UserListUser>
-            <UserListImg src={params.row.avatar} alt="" />
-            {params.row.username}
-          </UserListUser>
+          <VipListItem>
+            <VipListImg src={params.row.user_profile} alt="" />
+            {params.row.user_name}
+          </VipListItem>
         );
       },
     },
-    { field: "email", headerName: "Email", width: 200 },
+    { field: "vip_type", headerName: "Type", width: 200 },
     {
-      field: "status",
-      headerName: "Status",
-      width: 120,
-    },
-    {
-      field: "transaction",
-      headerName: "Transaction Volume",
+      field: "discount",
+      headerName: "Discount",
       width: 160,
     },
     {
@@ -52,12 +65,10 @@ const VipList = () => {
       renderCell: (params) => {
         return (
           <>
-            <Link to={"/user/" + params.row.id}>
-              <UserListEdit>Edit</UserListEdit>
-            </Link>
+            <VipListEdit>Edit</VipListEdit>
             <DeleteOutline
-              className="userListDelete"
-              onClick={() => handleDelete(params.row.id)}
+              className="VipListDelete"
+              onClick={() => handleDelete(params.row.user_id)}
             />
           </>
         );
@@ -68,7 +79,8 @@ const VipList = () => {
   return (
     <Container>
       <DataGrid
-        rows={data}
+        rows={vips}
+        getRowId={(row) => row.user_id}
         disableSelectionOnClick
         columns={columns}
         pageSize={8}

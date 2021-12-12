@@ -70,66 +70,45 @@ const Sidebar = () => {
           </List>
         </Menu>
         <Menu>
-          <Title>Dashboard</Title>
+          <Title>Orders</Title>
           <List>
-            <ListItem>
-              <LineStyle
-                style={{ marginRight: "5px", fontSize: "20px !important" }}
-              />
-              Home
-            </ListItem>
-            <ListItem>
-              <Timeline
-                style={{ marginRight: "5px", fontSize: "20px !important" }}
-              />
-              Timeline
-            </ListItem>
-            <ListItem>
-              <TrendingUp
-                style={{ marginRight: "5px", fontSize: "20px !important" }}
-              />
-              Trend
-            </ListItem>
+            <StyledLink to="/waitOrders">
+              <ListItem>
+                <LineStyle
+                  style={{ marginRight: "5px", fontSize: "20px !important" }}
+                />
+                Wait Orders
+              </ListItem>
+            </StyledLink>
+            <StyledLink to="/transOrders">
+              <ListItem>
+                <Timeline
+                  style={{ marginRight: "5px", fontSize: "20px !important" }}
+                />
+                Trans Orders
+              </ListItem>
+            </StyledLink>
+            <StyledLink to="/finishedOrders">
+              <ListItem>
+                <TrendingUp
+                  style={{ marginRight: "5px", fontSize: "20px !important" }}
+                />
+                Finished Orders
+              </ListItem>
+            </StyledLink>
           </List>
         </Menu>
         <Menu>
           <Title>Dashboard</Title>
           <List>
-            <ListItem>
-              <LineStyle
-                style={{ marginRight: "5px", fontSize: "20px !important" }}
-              />
-              Home
-            </ListItem>
-            <ListItem>
-              <Timeline
-                style={{ marginRight: "5px", fontSize: "20px !important" }}
-              />
-              Timeline
-            </ListItem>
-            <ListItem>
-              <TrendingUp
-                style={{ marginRight: "5px", fontSize: "20px !important" }}
-              />
-              Trend
-            </ListItem>
-          </List>
-        </Menu>
-        <Menu>
-          <Title>Dashboard</Title>
-          <List>
-            <ListItem>
-              <LineStyle
-                style={{ marginRight: "5px", fontSize: "20px !important" }}
-              />
-              Home
-            </ListItem>
-            <ListItem>
-              <Timeline
-                style={{ marginRight: "5px", fontSize: "20px !important" }}
-              />
-              Users
-            </ListItem>
+            <StyledLink to="/vips">
+              <ListItem>
+                <Timeline
+                  style={{ marginRight: "5px", fontSize: "20px !important" }}
+                />
+                Vips
+              </ListItem>
+            </StyledLink>
             <StyledLink to="/products">
               <ListItem>
                 <TrendingUp

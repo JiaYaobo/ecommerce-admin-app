@@ -16,6 +16,7 @@ import {
   loadFinishedOrdersSuccess,
   loadFinishedOrdersFailure,
   addOrderToFinished,
+  removeOrderFromFinished,
 } from "./finishedOrderRedux";
 
 import {
@@ -25,6 +26,23 @@ import {
   loadWaitOrdersSuccess,
   removeOrderFromWait,
 } from "./waitOrderRedux";
+
+import {
+  getProductFailure,
+  getProductStart,
+  getProductSuccess,
+  deleteProductFailure,
+  deleteProductStart,
+  deleteProductSuccess,
+  updateProductFailure,
+  updateProductStart,
+  updateProductSuccess,
+  addProductFailure,
+  addProductStart,
+  addProductSuccess,
+} from "./productRedux";
+
+import { loadVipsFailure, loadVipsStart, loadVipsSuccess } from "./vipRedux";
 
 import { publicRequest } from "../requestMethods";
 
@@ -44,7 +62,7 @@ export const logout = async (dispatch) => {
 };
 
 export const loadWaitOrders = async (dispatch, user_id) => {
-  loadWaitOrdersStart();
+  dispatch(loadWaitOrdersStart());
   try {
     const res = await publicRequest.get(`/store/wait_orders/${user_id}`);
     dispatch(loadWaitOrdersSuccess(res.data));
@@ -54,7 +72,7 @@ export const loadWaitOrders = async (dispatch, user_id) => {
 };
 
 export const loadTransOrders = async (dispatch, user_id) => {
-  loadTransOrdersStart();
+  dispatch(loadTransOrdersStart());
   try {
     const res = await publicRequest.get(`/store/trans_orders/${user_id}`);
     dispatch(loadTransOrdersSuccess(res.data));
@@ -64,11 +82,103 @@ export const loadTransOrders = async (dispatch, user_id) => {
 };
 
 export const loadFinishedOrders = async (dispatch, user_id) => {
-  loadFinishedOrdersStart();
+  dispatch(loadFinishedOrdersStart());
   try {
     const res = await publicRequest.get(`/store/finished_orders/${user_id}`);
     dispatch(loadFinishedOrdersSuccess(res.data));
   } catch (err) {
     dispatch(loadFinishedOrdersFailure());
+  }
+};
+
+export const waitToTrans = async (dispatch, order_id) => {
+  try {
+    const res = await publicRequest.post("/order/add_to_trans", {
+      orderId: order_id,
+    });
+    const data = await res.data;
+    dispatch(removeOrderFromWait(order_id));
+    dispatch(addOrderToTrans(data));
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+export const loadProducts = async (dispatch, store_id) => {
+  dispatch(getProductStart());
+  try {
+    const res = await publicRequest.get(`/product/products/store/${store_id}`);
+    const data = await res.data;
+    dispatch(getProductSuccess(data));
+  } catch (err) {
+    getProductFailure();
+  }
+};
+
+export const deleteProduct = async (dispatch, goods_id) => {
+  dispatch(deleteProductStart());
+  try {
+    // const res = await userRequest.delete(`/products/${id}`);
+    dispatch(deleteProductSuccess(goods_id));
+  } catch (err) {
+    dispatch(deleteProductFailure());
+  }
+};
+
+export const updateProduct = async (goods_id, product, dispatch) => {
+  dispatch(updateProductStart());
+  try {
+    // update
+    dispatch(updateProductSuccess({ goods_id, product }));
+  } catch (err) {
+    dispatch(updateProductFailure());
+  }
+};
+
+export const addProduct = async (product, dispatch) => {
+  dispatch(addProductStart());
+  try {
+    // const res = await userRequest.post(`/products`, product);
+    // dispatch(addProductSuccess(res.data));
+  } catch (err) {
+    dispatch(addProductFailure());
+  }
+};
+
+export const getVips = async (dispatch, store_id) => {
+  dispatch(loadVipsStart());
+  try {
+    const res = await publicRequest.get("/store/vips_all/" + store_id);
+    const data = await res.data;
+    dispatch(loadVipsSuccess(data));
+  } catch (err) {
+    dispatch(loadVipsFailure());
+  }
+};
+
+export const deleteWaitOrder = async (dispatch, order_id) => {
+  try {
+    await publicRequest.delete("/order/delete_order/" + order_id);
+    dispatch(removeOrderFromWait(order_id));
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+export const deleteTransOrder = async (dispatch, order_id) => {
+  try {
+    await publicRequest.delete("/order/delete_order/" + order_id);
+    dispatch(removeOrderFromTrans(order_id));
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+export const deleteFinishedOrder = async (dispatch, order_id) => {
+  try {
+    await publicRequest.delete("/order/delete_order/" + order_id);
+    dispatch(removeOrderFromFinished(order_id));
+  } catch (err) {
+    console.log(err);
   }
 };

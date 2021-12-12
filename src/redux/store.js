@@ -3,6 +3,8 @@ import userReducer from "./userRedux";
 import transOrderReducer from "./transOrderRedux";
 import finishedOrderReducer from "./finishedOrderRedux";
 import waitOrderReducer from "./waitOrderRedux";
+import productReducer from "./productRedux";
+import vipReducer from "./vipRedux";
 
 import {
   persistStore,
@@ -27,6 +29,8 @@ const rootReducer = combineReducers({
   transOrder: transOrderReducer,
   finishedOrder: finishedOrderReducer,
   waitOrder: waitOrderReducer,
+  product: productReducer,
+  vip: vipReducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

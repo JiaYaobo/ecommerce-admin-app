@@ -5,7 +5,6 @@ import { publicRequest } from "../requestMethods";
 import Conversation from "../components/Conversation";
 import Message from "../components/Message";
 import { io } from "socket.io-client";
-import { Children } from "react";
 
 const Container = styled.div`
   flex: 4;
@@ -92,7 +91,6 @@ const Messenger = () => {
         `/chat/conversations_all/store/${currentUser.user_id}`
       );
       const data = await res.data;
-      console.log(data);
       setConversations(data);
     } catch (err) {
       console.log(err);
@@ -113,6 +111,7 @@ const Messenger = () => {
       senderId: currentUser.user_id,
       receiverId: currentChat?.user_id,
       text: newMessage,
+      created_at: Date.now(),
     });
     try {
       const res = await publicRequest.post(`/chat/messages`, message);
@@ -125,19 +124,21 @@ const Messenger = () => {
 
   useEffect(() => {
     socket.current = io("ws://localhost:8900");
-    socket.current.on("getMessage", (data) => {
+    const getMessage = (data) => {
       setArriveMessage({
         sender_id: data.senderId,
+        receriver_id: currentUser.user_id,
         message_text: data.text,
         created_at: Date.now(),
       });
-      console.log(arriveMessage);
-    });
-  }, []);
+    };
+    socket.current.on("getMessage", getMessage);
+    return () => socket.current.off("message", getMessage);
+  }, [socket]);
 
   useEffect(() => {
     arriveMessage &&
-      currentChat?.user_id === arriveMessage.sender_id &&
+      currentChat?.user_id == arriveMessage?.sender_id &&
       setMessages((prev) => [...prev, arriveMessage]);
   }, [arriveMessage, currentChat]);
 
@@ -173,16 +174,14 @@ const Messenger = () => {
       <ChatMenu>
         <ChatMenuWrapper>
           <ChatMenuInput type="text" placeholder="Search for stores" />
-          {conversations.length !== 0 &&
-            conversations?.map((c) => (
-              <div onClick={() => setCurrentChat(c)}>
-                <Conversation
-                  conversationId={c.conversation_id}
-                  currentUser={currentUser}
-                  key={c.conversation_id}
-                />
-              </div>
-            ))}
+          {conversations?.map((c) => (
+            <div onClick={() => setCurrentChat(c)}>
+              <Conversation
+                conversationId={c.conversation_id}
+                key={c.conversation_id}
+              />
+            </div>
+          ))}
         </ChatMenuWrapper>
       </ChatMenu>
       <ChatBox>

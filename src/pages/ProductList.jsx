@@ -2,10 +2,9 @@ import { DataGrid } from "@material-ui/data-grid";
 import { DeleteOutline } from "@material-ui/icons";
 import { useEffect, useState } from "react";
 import styled from "styled-components";
-import { productRows } from "../dummyData";
 import { Link } from "react-router-dom";
 import { publicRequest } from "../requestMethods";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 
 const Container = styled.div`
   flex: 4;
@@ -35,29 +34,22 @@ const ProductListEdit = styled.button`
 `;
 
 const ProductList = () => {
-  const [data, setData] = useState(productRows);
   const { currentUser } = useSelector((state) => state.user);
-  const [products, setProducts] = useState([]);
+  const dispatch = useDispatch();
+  const products = useSelector((state) => state.product.products);
 
-  const loadProducts = async () => {
-    const res = await publicRequest.get(
-      `/product/products/store/${currentUser.user_id}`
-    );
-    const prods_data = await res.data;
-    for (let i = 0; i < prods_data.length; i++) {
-      prods_data[i].id = prods_data[i]["goods_id"];
-      delete prods_data[i].key1;
-    }
-    setProducts([...prods_data]);
-  };
+  // for (let i = 0; i < prods_data.length; i++) {
+  //   prods_data[i].id = prods_data[i]["goods_id"];
+  //   delete prods_data[i].key1;
+  // }
 
   const handleDelete = (id) => {
-    setData(data.filter((item) => item.id !== id));
+    // setData(data.filter((item) => item.id !== id));
   };
 
-  useEffect(() => {
-    loadProducts();
-  }, []);
+  // useEffect(() => {
+  //   loadProducts();
+  // }, []);
   const columns = [
     { field: "goods_id", headerName: "ID", width: 90 },
     {
@@ -73,7 +65,7 @@ const ProductList = () => {
         );
       },
     },
-    { field: "id", headerName: "Stock", width: 200 },
+    { field: "goods_stock", headerName: "Stock", width: 200 },
     {
       field: "goods_status",
       headerName: "Status",
@@ -91,7 +83,7 @@ const ProductList = () => {
       renderCell: (params) => {
         return (
           <>
-            <Link to={"/product/" + params.row.id}>
+            <Link to={"/product/" + params.row.goods_id}>
               <ProductListEdit>Edit</ProductListEdit>
             </Link>
             <DeleteOutline
@@ -107,6 +99,7 @@ const ProductList = () => {
     <Container>
       <DataGrid
         rows={products}
+        getRowId={(row) => row.goods_id}
         disableSelectionOnClick
         columns={columns}
         pageSize={8}

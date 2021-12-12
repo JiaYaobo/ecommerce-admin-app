@@ -9,6 +9,8 @@ import {
   loadWaitOrders,
   loadFinishedOrders,
   loadTransOrders,
+  loadProducts,
+  getVips,
 } from "../redux/apiCalls";
 
 const Container = styled.div`
@@ -24,6 +26,8 @@ const Home = () => {
     loadTransOrders(dispatch, currentUser.user_id);
     loadFinishedOrders(dispatch, currentUser.user_id);
     loadWaitOrders(dispatch, currentUser.user_id);
+    loadProducts(dispatch, currentUser.user_id);
+    getVips(dispatch, currentUser.user_id);
   }
 
   useEffect(() => {
