@@ -12,6 +12,9 @@ import WaitOrderList from "./pages/WaitOrderList";
 import TransOrderList from "./pages/TransOrderList";
 import FinishedOrderList from "./pages/FinishedOrderList";
 import VipList from "./pages/VipList";
+import Analytics from "./pages/Analytics";
+import Feature from "./pages/Feature";
+import NewProduct from "./pages/NewProduct";
 
 const Container = styled.div`
   display: flex;
@@ -52,9 +55,28 @@ function App() {
             element={user ? <FinishedOrderList /> : <Login />}
           />
           <Route exact path="/vips" element={user ? <VipList /> : <Login />} />
+
+          <Route
+            exact
+            path="/analytics"
+            element={user ? <Analytics /> : <Login />}
+          />
+
+          <Route
+            exact
+            path="/feature"
+            element={user ? <Feature /> : <Login />}
+          />
+
           <Route
             path="/product/:productId"
             element={user ? <Product /> : <Login />}
+          />
+
+          <Route
+            exact
+            path="/new_product"
+            element={user ? <NewProduct /> : <Login />}
           />
         </Routes>
       </Container>

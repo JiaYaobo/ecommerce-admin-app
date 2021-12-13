@@ -1,10 +1,9 @@
 import { DataGrid } from "@material-ui/data-grid";
-import { DeleteOutline } from "@material-ui/icons";
-import { useEffect, useState } from "react";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
-import { publicRequest } from "../requestMethods";
 import { useSelector, useDispatch } from "react-redux";
+import { useEffect } from "react";
+import { loadProducts } from "../redux/apiCalls";
 
 const Container = styled.div`
   flex: 4;
@@ -38,18 +37,10 @@ const ProductList = () => {
   const dispatch = useDispatch();
   const products = useSelector((state) => state.product.products);
 
-  // for (let i = 0; i < prods_data.length; i++) {
-  //   prods_data[i].id = prods_data[i]["goods_id"];
-  //   delete prods_data[i].key1;
-  // }
+  useEffect(() => {
+    loadProducts(dispatch, currentUser.user_id);
+  }, []);
 
-  const handleDelete = (id) => {
-    // setData(data.filter((item) => item.id !== id));
-  };
-
-  // useEffect(() => {
-  //   loadProducts();
-  // }, []);
   const columns = [
     { field: "goods_id", headerName: "ID", width: 90 },
     {
@@ -86,10 +77,6 @@ const ProductList = () => {
             <Link to={"/product/" + params.row.goods_id}>
               <ProductListEdit>Edit</ProductListEdit>
             </Link>
-            <DeleteOutline
-              style={{ color: "red", curor: "pointer" }}
-              onClick={() => handleDelete(params.row.id)}
-            />
           </>
         );
       },

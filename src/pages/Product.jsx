@@ -6,6 +6,10 @@ import { useState } from "react";
 import { useEffect } from "react";
 import { useParams } from "react-router";
 import { publicRequest } from "../requestMethods";
+import { useForm } from "../utils/hook";
+import { useDispatch } from "react-redux";
+import { updateProduct } from "../redux/apiCalls";
+import { StyledLink } from "../components/styled-components/StyledLink";
 
 const Container = styled.div`
   flex: 4;
@@ -147,6 +151,12 @@ const Button = styled.button`
 const Product = () => {
   const params = useParams();
   const [product, setProduct] = useState({});
+  const dispatch = useDispatch();
+  const { onChange, onSubmit, values } = useForm(updateProd, {
+    goods_name: "",
+    goods_price: 0,
+    goods_status: 0,
+  });
 
   useEffect(() => {
     const fetchProduct = async () => {
@@ -157,11 +167,18 @@ const Product = () => {
     fetchProduct();
   }, []);
 
+  function updateProd() {
+    updateProduct(params.productId, values, dispatch);
+    window.location.reload();
+  }
+
   return (
     <Container>
       <ProductTitleContainer>
         <ProductTitle>{product?.goods_name}</ProductTitle>
-        <ProductAddButton>ADD + </ProductAddButton>
+        <StyledLink to="/new_product">
+          <ProductAddButton>ADD + </ProductAddButton>
+        </StyledLink>
       </ProductTitleContainer>
       <Top>
         <TopLeft>
@@ -191,14 +208,30 @@ const Product = () => {
         </TopRight>
       </Top>
       <Bottom>
-        <Form>
+        <Form onSubmit={onSubmit}>
           <FormLeft>
             <FormLabel>Name</FormLabel>
-            <FormInput type="text" placeholder={product?.goods_name} />
+            <FormInput
+              name="goods_name"
+              type="text"
+              placeholder={product?.goods_name}
+              onChange={onChange}
+              value={values.goods_name}
+            />
             <FormLabel>Price</FormLabel>
-            <FormInput type="number" placeholder={product?.goods_price} />
+            <FormInput
+              name="goods_price"
+              type="number"
+              onChange={onChange}
+              value={values.goods_price}
+            />
             <FormLabel>Status</FormLabel>
-            <Select id="active" name="active">
+            <Select
+              id="active"
+              name="goods_status"
+              onChange={onChange}
+              value={values.goods_status}
+            >
               <Options>0</Options>
               <Options>1</Options>
             </Select>
@@ -211,7 +244,7 @@ const Product = () => {
               </FormLabel>
               <FormInput type="file" id="file" style={{ display: "none" }} />
             </Upload>
-            <Button>Update</Button>
+            <Button type="submit">Update</Button>
           </FormRight>
         </Form>
       </Bottom>

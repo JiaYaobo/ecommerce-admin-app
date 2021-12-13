@@ -129,17 +129,22 @@ export const updateProduct = async (goods_id, product, dispatch) => {
   dispatch(updateProductStart());
   try {
     // update
-    dispatch(updateProductSuccess({ goods_id, product }));
+    const res = await publicRequest.post(
+      `/product/update/${goods_id}`,
+      product
+    );
+    const data = await res.data;
+    dispatch(updateProductSuccess({ goods_id, product: data }));
   } catch (err) {
     dispatch(updateProductFailure());
   }
 };
 
-export const addProduct = async (product, dispatch) => {
+export const addProduct = async (store_id, product, dispatch) => {
   dispatch(addProductStart());
   try {
-    // const res = await userRequest.post(`/products`, product);
-    // dispatch(addProductSuccess(res.data));
+    const res = await publicRequest.post(`/product/${store_id}`, product);
+    dispatch(addProductSuccess(res.data));
   } catch (err) {
     dispatch(addProductFailure());
   }

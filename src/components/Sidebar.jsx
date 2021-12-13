@@ -55,18 +55,22 @@ const Sidebar = () => {
                 Home
               </ListItem>
             </StyledLink>
-            <ListItem>
-              <Timeline
-                style={{ marginRight: "5px", fontSize: "20px !important" }}
-              />
-              Timeline
-            </ListItem>
-            <ListItem>
-              <TrendingUp
-                style={{ marginRight: "5px", fontSize: "20px !important" }}
-              />
-              Trend
-            </ListItem>
+            <StyledLink to="/analytics">
+              <ListItem>
+                <Timeline
+                  style={{ marginRight: "5px", fontSize: "20px !important" }}
+                />
+                User Analytics
+              </ListItem>
+            </StyledLink>
+            <StyledLink to="/feature">
+              <ListItem>
+                <TrendingUp
+                  style={{ marginRight: "5px", fontSize: "20px !important" }}
+                />
+                Store Feature
+              </ListItem>
+            </StyledLink>
           </List>
         </Menu>
         <Menu>

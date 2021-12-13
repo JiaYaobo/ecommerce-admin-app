@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import { DataGrid } from "@material-ui/data-grid";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { publicRequest } from "../requestMethods";
 
 const Container = styled.div`
@@ -42,7 +42,7 @@ const Analytics = () => {
         getRowId={(row) => row.user_province}
         disableSelectionOnClick
         columns={columns}
-        pageSize={8}
+        pageSize={12}
         checkboxSelection
       />
     </Container>
