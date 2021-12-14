@@ -1,56 +1,107 @@
 import styled from "styled-components";
+import { publicRequest } from "../requestMethods";
+import { useSelector } from "react-redux";
+import { useForm } from "../utils/hook";
 
-const NewUser = () => {
+const Container = styled.div`
+  flex: 4;
+  margin-left: 100px;
+`;
+
+const Title = styled.h1``;
+
+const Item = styled.div`
+  width: 250px;
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 10px;
+
+  & > label {
+    color: gray;
+    font-weight: 600;
+    margin-bottom: 10px;
+  }
+
+  & > input {
+    padding: 10px;
+  }
+
+  & > select {
+    padding: 10px;
+  }
+`;
+
+const Form = styled.form`
+  margin-top: 10px;
+`;
+
+const Button = styled.button`
+  margin-top: 10px;
+  padding: 7px 10px;
+  border: none;
+  border-radius: 10px;
+  background-color: darkblue;
+  color: white;
+  font-weight: 600;
+  cursor: pointer;
+`;
+
+const NewVip = () => {
+  const { currentUser } = useSelector((state) => state.user);
+
+  const { onChange, onSubmit, values } = useForm(createVip, {
+    user_email: "",
+    vip_type: 1,
+    discount: 0,
+  });
+
+  function createVip() {
+    const crtVip = async () => {
+      try {
+        await publicRequest.post("/vip/" + currentUser.user_id, values);
+      } catch (err) {
+        console.log(err);
+      }
+    };
+    crtVip();
+    window.location.reload();
+  }
+
   return (
     <Container>
-      <NewUserTitle>New User</NewUserTitle>
-      <NewUserForm>
-        <NewUserItem>
-          <label>Username</label>
-          <input type="text" placeholder="john" />
-        </NewUserItem>
-        <NewUserItem>
-          <label>Full name</label>
-          <input type="text" placeholder="john what" />
-        </NewUserItem>
-        <NewUserItem>
-          <label>Username</label>
-          <input type="email" placeholder="john@john.com" />
-        </NewUserItem>
-        <NewUserItem>
-          <label>Password</label>
-          <input type="password" placeholder="password" />
-        </NewUserItem>
-        <NewUserItem>
-          <label>Phone</label>
-          <input type="text" placeholder="18888888" />
-        </NewUserItem>
-        <NewUserItem>
-          <label>Address</label>
-          <input type="text" placeholder="Beijing RUC" />
-        </NewUserItem>
-        <NewUserItem>
-          <label>Gender</label>
-          <NewUserGender>
-            <input type="radio" name="gender" id="male" value="male" />
-            <label for="male">Male</label>
-            <input type="radio" name="gender" id="female" value="female" />
-            <label for="female">Female</label>
-            <input type="radio" name="gender" id="other" value="other" />
-            <label for="other">Other</label>
-          </NewUserGender>
-        </NewUserItem>
-        <NewUserItem>
-          <label>Active</label>
-          <select className="newUserSelect" name="active" id="active">
-            <option value="yes">Yes</option>
-            <option value="no">No</option>
+      <Title>New Vip</Title>
+      <Form onSubmit={onSubmit}>
+        <Item>
+          <label>Email</label>
+          <input
+            name="user_email"
+            type="text"
+            placeholder="fake@fake.com"
+            onChange={onChange}
+            value={values.user_email}
+          />
+        </Item>
+        <Item>
+          <label>Type</label>
+          <select name="vip_type" onChange={onChange} value={values.vip_type}>
+            <option value={1}>Gold</option>
+            <option value={2}>Silver</option>
+            <option value={3}>Bronze</option>
           </select>
-        </NewUserItem>
-        <NewUserButton>Create</NewUserButton>
-      </NewUserForm>
+        </Item>
+        <Item>
+          <label>Discount</label>
+          <input
+            name="discount"
+            type="number"
+            onChange={onChange}
+            value={values.discount}
+          />
+        </Item>
+        <Button>Create</Button>
+      </Form>
     </Container>
   );
 };
 
-export default NewUser;
+export default NewVip;

@@ -15,6 +15,8 @@ import VipList from "./pages/VipList";
 import Analytics from "./pages/Analytics";
 import Feature from "./pages/Feature";
 import NewProduct from "./pages/NewProduct";
+import NewVip from "./pages/NewVip";
+import Vip from "./pages/Vip";
 
 const Container = styled.div`
   display: flex;
@@ -73,10 +75,16 @@ function App() {
             element={user ? <Product /> : <Login />}
           />
 
+          <Route path="/vip/:vipId" element={user ? <Vip /> : <Login />} />
           <Route
             exact
             path="/new_product"
             element={user ? <NewProduct /> : <Login />}
+          />
+          <Route
+            exact
+            path="/new_vip"
+            element={user ? <NewVip /> : <Login />}
           />
         </Routes>
       </Container>

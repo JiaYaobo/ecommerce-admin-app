@@ -1,7 +1,10 @@
 import { DataGrid } from "@material-ui/data-grid";
 import { DeleteOutline } from "@material-ui/icons";
-import { useSelector } from "react-redux";
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
+import { StyledLink } from "../components/styled-components/StyledLink";
+import { getVips } from "../redux/apiCalls";
 
 const Container = styled.div`
   flex: 4;
@@ -31,7 +34,13 @@ const VipListEdit = styled.button`
 `;
 
 const VipList = () => {
+  const { currentUser } = useSelector((state) => state.user);
   const vips = useSelector((state) => state.vip.vips);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    getVips(dispatch, currentUser.user_id);
+  }, []);
 
   const handleDelete = (id) => {
     // setData(data.filter((item) => item.id !== id));
@@ -65,7 +74,9 @@ const VipList = () => {
       renderCell: (params) => {
         return (
           <>
-            <VipListEdit>Edit</VipListEdit>
+            <StyledLink to={"/vip/" + params.row.user_id}>
+              <VipListEdit>Edit</VipListEdit>
+            </StyledLink>
             <DeleteOutline
               className="VipListDelete"
               onClick={() => handleDelete(params.row.user_id)}
