@@ -116,7 +116,7 @@ const FeaturedInfo = () => {
       <Item>
         <Title>Revanue</Title>
         <MoneyContainer>
-          <Money>${ydata?.sales_total_year}</Money>
+          <Money>${Math.round(ydata?.sales_total_year)}</Money>
         </MoneyContainer>
         <Sub>Sales all year</Sub>
       </Item>
